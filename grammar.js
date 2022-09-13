@@ -720,6 +720,7 @@ module.exports = grammar({
         decoration: $ => token(/(\/\/\s*@(\\(.|\r?\n)|[^\\\n])*)/),
         // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
 
+        // TODO: refactor this
         comment: $ => token(choice(
             seq('//', /(\\(.|\r?\n)|[^\\\n])*/),
             seq(
