@@ -1,0 +1,39 @@
+version = 1
+
+[[analyzers]]
+name = "csharp"
+enabled = true
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
+
+[[analyzers]]
+name = "shell"
+enabled = true
+
+[[analyzers]]
+name = "docker"
+enabled = true
+
+  [analyzers.meta]
+  dockerfile_paths = [
+    "Dockerfile.Runtime",
+    "Dockerfile.Tool"
+  ]
+
+[[analyzers]]
+name = "rust"
+enabled = true
+
+  [analyzers.meta]
+  msrv = "1.62.0"
+
+[[transformers]]
+name = "rustfmt"
+enabled = true
+
+[[transformers]]
+name = "dotnet-format"
+enabled = true
+

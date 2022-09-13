@@ -1,0 +1,58 @@
+name: Update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge:
+    name: Release nwn-rs-codegen library
+    runs-on: ubuntu-latest
+    steps:
+      # checkout with token
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        #with:
+        #  token: ${{ secrets.GH_ACCESS_TOKEN }}
+      # install rust nightly
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+      # install cargo-edit
+      - uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-edit
+      ## version/semvar stuff
+      # get current
+      - name: Get current rust app version from its Cargo.toml.
+        id: current_version
+        uses: dante-signal31/rust-app-version@v1.0.0
+      # update var
+      - name: Update Version
+        id: semver
+        uses: matt-FFFFFF/simple-semver@v0.1.0
+        with:
+          semver-input: ${{ steps.current_version.outputs.app_version }}
+          increment: p
+      # set new
+      - uses: actions-rs/cargo@v1
+        with:
+          command: set-version
+          args: ${{ steps.semver.outputs.semver }}
+      ## end version stuff
+      # commit
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "CI: bump version to ${{ steps.semver.outputs.semver }}"
+          tagging_message: release/v${{ steps.semver.outputs.semver }}
+      # release
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          tag_name: release/v${{ steps.semver.outputs.semver }}
+      # publish
+      - uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --token ${{ secrets.CARGO_API_KEY }}

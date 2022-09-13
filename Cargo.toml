@@ -1,0 +1,29 @@
+[package]
+name = "tree-sitter-nwscript"
+description = "nwscript grammar for the tree-sitter parsing library"
+version = "8193.34.0"
+keywords = ["incremental", "parsing", "nwscript"]
+categories = ["parsing", "text-editors"]
+edition = "2021"
+license = "MIT"
+email = "urothis@gmail.com"
+
+build = "bindings/rust/build.rs"
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "queries/*",
+  "src/*",
+]
+
+[badges]
+maintenance = { status = "experimental" }
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter = "0.20.9"
+
+[build-dependencies]
+cc = "1.0.73"
