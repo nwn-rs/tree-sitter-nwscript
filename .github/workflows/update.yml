@@ -30,7 +30,7 @@ jobs:
       # update var
       - name: Update Version
         id: semver
-        uses: matt-FFFFFF/simple-semver@v0.1.0
+        uses: matt-FFFFFF/simple-semver@v0.1.1
         with:
           semver-input: ${{ steps.current_version.outputs.app_version }}
           increment: p
